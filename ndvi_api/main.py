@@ -1,40 +1,28 @@
-from typing import List
-from fastapi import FastAPI, Query, Path, Body
-from schemas import Book, BookOut
+import ee
+import uvicorn
+from fastapi import FastAPI
 
+from core.config import EE_SERVICE_ACCOUNT, PRIVATEKEY
+from db.base import database
+from endpoints.fields import router
 
 app = FastAPI()
+app.include_router(router, prefix='/fields', tags=['fields'])
 
 
-@app.post('/book', response_model=BookOut)
-def create_book(item: Book):
-    return BookOut(**item.dict(), id = 3)
+@app.on_event("startup")
+async def startup():
+    service_account = EE_SERVICE_ACCOUNT
+    credentials = ee.ServiceAccountCredentials(
+        service_account, PRIVATEKEY)
+    ee.Initialize(credentials)
+    await database.connect()
 
 
-@app.post('/fields')
-def create_field(field: str):
-    # Сохранение поля
-    # Получение снимка
-    # Расчет и сохранение NDVI
-    return field
+@app.on_event("shutdown")
+async def shutdown():
+    await database.disconnect()
 
 
-@app.delete('/fields/{field_id}')
-def delete_field(field_id: int):
-    # Получить поле из бд
-    # Удалить поле из бд
-    pass
-
-
-@app.get('fields')
-def list_fields():
-    # Получить список полей из бд
-    # Вернуть все поля
-    pass
-
-
-@app.get('fields/{field_id}')
-def ndvi_get(field_id: int):
-    # Получить поле из бд
-    # Вернуть изображение с NDVI
-    pass
+if __name__ == '__main__':
+    uvicorn.run('main:app', port=8000, host='0.0.0.0', reload=True)

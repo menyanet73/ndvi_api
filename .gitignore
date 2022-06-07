@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# EE privatekey
+privatekey.json
+
+# maps
+map_*.html
+
+# vscode
+.vscode/
