@@ -2,8 +2,6 @@
 
 API Service accepting polygon coordinates, save it, and return html map with NDVI layer. 
 
-Project can be viewed at:
-http://51.250.29.80/redoc/
 
 #### Stack: 
 Python 3, FastAPI, uvicorn, SQLAlchemy, PostgreSQL, earthengine-api
