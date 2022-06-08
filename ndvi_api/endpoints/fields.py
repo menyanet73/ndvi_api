@@ -17,7 +17,7 @@ async def read_fields(
     limit: int = 100,
     skip: int = 100
 ):
-    return await fields.get_all(limit=limit, skip=skip)
+    return await fields.get_all(limit=limit, skip=0)
 
 
 @router.get('/{id}', response_model=Field)

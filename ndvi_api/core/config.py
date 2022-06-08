@@ -2,7 +2,7 @@ import os
 from starlette.config import Config
 
 
-config = Config('.env')
+config = Config('ndvi_api/.env')
 
 DATABASE_URL = config('EE_DATABASE_URL', cast=str, default='')
 
@@ -16,7 +16,7 @@ PALETTE = [
     '#41ab5d',
     '#238443',
     '#005a32'
-    ]
+]
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath((__file__))))
 

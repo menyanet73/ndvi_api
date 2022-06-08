@@ -136,3 +136,6 @@ map_*.html
 
 # vscode
 .vscode/
+
+#database directory
+infra/data
