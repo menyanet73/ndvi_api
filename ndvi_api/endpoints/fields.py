@@ -33,12 +33,22 @@ async def get(
     return field
 
 
-@router.post("/", response_model=Field)
+@router.post('/', response_model=Field)
 async def create_field(
     field: FieldIn,
     fields: FieldRepository = Depends(get_field_repository)
 ):
     return await fields.create(field=field)
+
+
+@router.delete('/{id}')
+async def delete_field(
+    id: int,
+    fields: FieldRepository = Depends(get_field_repository),
+    maps: MapRepository = Depends(get_map_repository)
+):
+    await maps.delete(id=id)
+    return fields.delete(id=id)
 
 
 @router.get('/{id}/map', response_class=FileResponse)

@@ -29,6 +29,12 @@ class FieldRepository(BaseRepository):
         new_field.id = await self.database.execute(query)
         return new_field
 
+    async def delete(self, id: int):
+        query = fields.delete().where(fields.c.id == id)
+        map_query = maps.delete().where(maps.c.field_id == id)
+        await self.database.execute(query=map_query)
+        return await self.database.execute(query=query)
+
 
 class MapRepository(BaseRepository):
 

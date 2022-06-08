@@ -2,13 +2,33 @@ version: '3'
 services:
   db:
     image: postgres:11
-    ports:
-      - 32700:5432
+    # ports:
+    #   - '32700:5432'
     volumes:
       - ./data:/var/lib/postgresql/data
-    # environment:
-    #   POSTGRES_USER: root
-    #   POSTGRES_PASSWORD: root
-    #   POSTGRES_DB: employement_exchange
     env_file:
-      - ../ndvi_api/.env
+      - ../.env
+  web:
+    image: menyanet73/ndvi_api:v08.06.22
+    # build: ../ndvi_api/.
+    restart: always
+    volumes:
+      - static_value:/app/static
+      - media_value:/app/media
+    depends_on:
+      - db
+    env_file:
+      - ../.env
+  nginx:
+    image: nginx:1.21.3-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d/
+      - static_value:/var/html/static
+      - media_value:/var/html/media/
+    depends_on:
+      - web
+volumes:
+  static_value:
+  media_value:

@@ -1,8 +1,7 @@
 import os
 from starlette.config import Config
 
-
-config = Config('ndvi_api/.env')
+config = Config('app/.env')
 
 DATABASE_URL = config('EE_DATABASE_URL', cast=str, default='')
 
