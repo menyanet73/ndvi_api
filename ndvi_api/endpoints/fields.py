@@ -1,4 +1,3 @@
-from types import NoneType
 from typing import List
 
 from fastapi import APIRouter, Depends, Response
@@ -16,9 +15,9 @@ router = APIRouter()
 async def read_fields(
     fields: FieldRepository = Depends(get_field_repository),
     limit: int = 100,
-    skip: int = 100
+    skip: int = 0
 ):
-    return await fields.get_all(limit=limit, skip=0)
+    return await fields.get_all(limit=limit, skip=skip)
 
 
 @router.get('/{id}', response_model=Field)
@@ -28,7 +27,7 @@ async def get(
     maps: MapRepository = Depends(get_map_repository),
 ):
     field = await fields.get_by_id(id=id)
-    if isinstance(field, NoneType):
+    if not field:
         return Response(status_code=404)
     map_html = geojson_to_ndvi_image(field.geojson, id)
     map = MapIn(field_id=id, html=map_html)
@@ -51,7 +50,7 @@ async def delete_field(
     maps: MapRepository = Depends(get_map_repository)
 ):
     await maps.delete(id=id)
-    return fields.delete(id=id)
+    return await fields.delete(id=id)
 
 
 @router.get('/{id}/map', response_class=FileResponse)
@@ -60,6 +59,6 @@ async def get_map(
     maps: MapRepository = Depends(get_map_repository)
 ):
     map = await maps.get_by_field_id(id=id)
-    if isinstance(map, NoneType):
+    if not map:
         return Response(status_code=404)
     return HTMLResponse(map.html)
