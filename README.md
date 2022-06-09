@@ -58,7 +58,7 @@ Done!
 
 ### Documentation of API will be aviable in
 ```sh
-127.0.0.1:8000/redoc/
+localhost/docs/
 ```
 ### Author
 ##### https://github.com/menyanet73
