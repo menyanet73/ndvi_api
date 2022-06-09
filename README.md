@@ -2,6 +2,8 @@
 
 API Service accepting polygon coordinates, save it, and return html map with NDVI layer. 
 
+Project aviable in 84.201.162.42/docs
+
 
 #### Stack: 
 Python 3, FastAPI, uvicorn, SQLAlchemy, PostgreSQL, earthengine-api
@@ -29,9 +31,9 @@ Fill it in with your data.
 ```sh
 EE_DATABASE_URL=postgresql://postgres:postgres@db:32700/postgres
 EE_SERVICE_ACCOUNT=sample.iam.gserviceaccount.com
-DB_NAME=postgres
-DB_USER=postgres
-DB_PASSWORD=postgres
+POSTGRES_NAME=postgres
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
 PGHOST=db
 PGPORT=32700
 EE_PROJECT_ID= your-project-id
