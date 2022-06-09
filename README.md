@@ -60,5 +60,5 @@ Done!
 ```sh
 127.0.0.1:8000/redoc/
 ```
-### Авторы
+### Author
 ##### https://github.com/menyanet73
