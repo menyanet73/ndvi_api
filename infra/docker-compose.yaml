@@ -1,16 +1,13 @@
 version: '3'
 services:
   db:
-    image: postgres:11
-    # ports:
-    #   - '32700:5432'
+    image: postgres:13
     volumes:
       - ./data:/var/lib/postgresql/data
     env_file:
       - ../.env
   web:
     image: menyanet73/ndvi_api:v08.06.22
-    # build: ../ndvi_api/.
     restart: always
     volumes:
       - static_value:/app/static

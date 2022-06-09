@@ -1,6 +1,7 @@
+from types import NoneType
 from typing import List
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response
 from fastapi.responses import FileResponse, HTMLResponse
 from instruments.gjndvi import geojson_to_ndvi_image
 from models.field import Field, FieldIn, MapIn
@@ -27,6 +28,8 @@ async def get(
     maps: MapRepository = Depends(get_map_repository),
 ):
     field = await fields.get_by_id(id=id)
+    if isinstance(field, NoneType):
+        return Response(status_code=404)
     map_html = geojson_to_ndvi_image(field.geojson, id)
     map = MapIn(field_id=id, html=map_html)
     await maps.create(map)
@@ -57,4 +60,6 @@ async def get_map(
     maps: MapRepository = Depends(get_map_repository)
 ):
     map = await maps.get_by_field_id(id=id)
+    if isinstance(map, NoneType):
+        return Response(status_code=404)
     return HTMLResponse(map.html)
